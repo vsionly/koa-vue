@@ -1,0 +1,39 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "D:\\www\\tongmei\\server\\log\\.7b7bfaf6db054656e2a52c475070c639a0ccef36-audit.json",
+    "files": [
+        {
+            "date": 1565861374724,
+            "name": "D:\\www\\tongmei\\server\\log\\rsc-2019-08-15.log",
+            "hash": "e7b9dd734e527951d6272ada5fc90392"
+        },
+        {
+            "date": 1566202477642,
+            "name": "D:\\www\\tongmei\\server\\log\\rsc-2019-08-19.log",
+            "hash": "31ab25ab687c7969c3930df3366b3d8c"
+        },
+        {
+            "date": 1566266953490,
+            "name": "D:\\www\\tongmei\\server\\log\\rsc-2019-08-20.log",
+            "hash": "ba46db61aa093ea280b72a4b35f15467"
+        },
+        {
+            "date": 1566351853725,
+            "name": "D:\\www\\tongmei\\server\\log\\rsc-2019-08-21.log",
+            "hash": "9ed15c87b9ae35f1694ceda6c80658f4"
+        },
+        {
+            "date": 1566441792412,
+            "name": "D:\\www\\tongmei\\server\\log\\rsc-2019-08-22.log",
+            "hash": "b2caf24fa068da5b105c4900ba83ffb4"
+        },
+        {
+            "date": 1566531867225,
+            "name": "D:\\www\\tongmei\\server\\log\\rsc-2019-08-23.log",
+            "hash": "ec6dfbfcade9868c7c8393cc304748d7"
+        }
+    ]
+}
