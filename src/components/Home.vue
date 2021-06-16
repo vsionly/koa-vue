@@ -54,13 +54,23 @@ export default {
         //     console.log(error);
         // });
 
-        this.axios.post('/api/getList', {
+        this.axios.get('/api/getRegist', {
             id: 123,
             name: 'Henry',
             sex: 1,
             phone: 55555555
         }).then(function (response) {
-            console.log(response);
+            console.log(response.data);
+        }).catch(function (error) {
+            console.log(error);
+        });
+        this.axios.get('/api/test', {
+            id: 123,
+            name: 'Henry',
+            sex: 1,
+            phone: 55555555
+        }).then(function (response) {
+            console.log(response.data);
         }).catch(function (error) {
             console.log(error);
         });

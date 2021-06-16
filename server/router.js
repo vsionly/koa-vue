@@ -1,54 +1,96 @@
 const Router = require('koa-router')
 const router = new Router(); // 实例化路由
-const {greenFmt} = require('color7log'); // 实例化路由
+const {autoC} = require('color7log'); // 实例化路由
 const rp = require('request-promise');
+const request = require( 'request' );
 
 // 加密模块
 const crypto = require("crypto");
 const URLSafeBase64 = require('urlsafe-base64');
 
-
-
 router.get('/api/getList', async (ctx, next) => {
     greenFmt(ctx.query, '-')
+    ctx.response.body = 22222
+});
+
+router.get('/api/getRegist', async (ctx, next) => {
+    // greenFmt(ctx.request, '=')
+    ctx.response.body = {msg: 2121}
+});
+
+router.get('/api/test', async (ctx, next) => {
+
+    // 需要处理转发接口返回的数据的逻辑
+    await new Promise( resolve => {
+        var r = request({
+            url: 'http://192.168.0.122:3000/api/getRegist',
+            method: 'GET'
+        }, function(error, response, body) {
+            // autoC(error, response, body)
+            // body = 888
+            resolve(body)
+        })
+        console.log(r, 'rrrr')
+    }).then(data => {
+        console.log(data, 33333)
+        ctx.response.body = data
+    })
+
+    // 需要处理转发接口返回的数据的逻辑
+    const res = request({
+        url: 'http://192.168.0.122:3000/api/getRegist',
+        method: 'GET'
+    }, function(error, response, body) {
+        // 这里面的代码逻辑都没用
+        body = 888
+        autoC(body ,33)
+    })
+    ctx.response.body = res
 });
 
 router.post('/api/getList', async (ctx, next) => {
-    greenFmt(ctx.request.body, '=')
-    ctx.request.body.app_id = '5d42ad9eb60c4845d88c7086';
+    let xml =
+    `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.atlas.com/">
+        <soapenv:Header/>
+        <soapenv:Body>
+            <ws:queryDepartInfo>
+                <arg0>{level:"1",departNo:"11",key:"20190902pcg@atlas"}</arg0>
+            </ws:queryDepartInfo>
+        </soapenv:Body>
+    </soapenv:Envelope>`
+
+    // <ws:queryDoctorInfoById>
+    //     <arg0>{deptId:"16",doctorDate:"2019-09-02",key:"20190902pcg@atlas"}</arg0>
+    // </ws:queryDoctorInfoById>
+
     var options = {
-        method: 'POST',
-        uri: '某个接口地址',
-        form: ctx.request.body,
-        json: true
+      url: 'http://etjk360.cn:7090/BusinessWebService/RadiusAuditPort',
+      method: 'POST',
+      body: xml,
+      headers: {
+        'Content-Type':'text/xml;charset=utf-8'
+      }
     };
+    // greenFmt(ctx.request.body, '=')
+    // ctx.request.body.app_id = '5d42ad9eb60c4845d88c7086';
+    // var options = {
+    //     method: 'POST',
+    //     uri: '某个接口地址',
+    //     form: ctx.request.body,
+    //     json: true
+    // };
     await rp(options).then((data) => {
-        greenFmt(data, '-1')
-        ctx.response.body = data
+        // 解析xml
+        var xml2js = require('xml2js');
+        var parser = new xml2js.Parser({explicitArray: false, trim: true});
+        parser.parseString(data, (err, res) => {
+            greenFmt(res, '-')
+            ctx.response.body = res['S:Envelope']['S:Body']['ns2:queryDepartInfoResponse']['return']
+        });
     }).catch((err) => {
-        greenFmt(err, '-2')
+        greenFmt(err, '+')
         ctx.response.body = {status: 1, msg: err}
     });
-});
-
-router.post('/api/getRegist', async (ctx, next) => {
-    greenFmt(ctx.request.body, '=')
-    ctx.response.body = {
-        "outpatient_waitlist": [
-            {
-                "episode_uid": " 180125144830001",
-                "registerdate": "2018-08-01",
-                "age": "21 岁",
-                "gender": "男"
-            },
-            {
-                "episode_uid": " 180125144830015",
-                "registerdate": "2018-08-05",
-                "age": "21 岁",
-                "gender": "男"
-            }
-        ]
-    };
 });
 
 router.post('/api/getEnc', (ctx, next) => {

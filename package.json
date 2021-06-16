@@ -12,7 +12,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "color7log": "^1.2.13",
+    "color7log": "^1.6.1",
     "core-js": "^2.6.5",
     "crypto": "^1.0.1",
     "koa": "^2.7.0",
@@ -23,7 +23,8 @@
     "koa2-connect-history-api-fallback": "^0.1.2",
     "request-promise": "^4.2.4",
     "urlsafe-base64": "^1.0.0",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "xml2js": "^0.4.20"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.1.1",
