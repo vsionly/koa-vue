@@ -7,12 +7,13 @@
     "url": "git@git.zuoshouyisheng.com:liweisheng/tongmei.git"
   },
   "scripts": {
+    "start": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "color7log": "^1.6.1",
+    "color7log": "^1.6.4",
     "core-js": "^2.6.5",
     "crypto": "^1.0.1",
     "koa": "^2.7.0",
@@ -27,6 +28,7 @@
     "xml2js": "^0.4.20"
   },
   "devDependencies": {
+    "@vsionly/ui": "^1.0.2",
     "@vue/cli-plugin-babel": "^3.1.1",
     "@vue/cli-plugin-eslint": "^3.1.1",
     "@vue/cli-service": "^3.1.1",
