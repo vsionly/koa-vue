@@ -3,19 +3,47 @@ const router = new Router(); // 实例化路由
 const {autoC} = require('color7log'); // 实例化路由
 const rp = require('request-promise');
 const request = require( 'request' );
-
 // 加密模块
 const crypto = require("crypto");
 const URLSafeBase64 = require('urlsafe-base64');
 
+// const nodeExcel = require("excel-export");
+
 router.get('/api/getList', async (ctx, next) => {
-    greenFmt(ctx.query, '-')
+    autoC(ctx.query, '-')
     ctx.response.body = 22222
 });
 
 router.get('/api/getRegist', async (ctx, next) => {
-    // greenFmt(ctx.request, '=')
+    // autoC(ctx.request, '=')
     ctx.response.body = {msg: 2121}
+});
+
+router.get('/api/exportExcel', async (ctx, next) => {
+    res = ctx.res
+    var conf ={};
+    conf.name = "mysheet";
+    conf.cols = [{
+        caption:'姓名',
+        type:'string'
+    },{
+        caption:'性别',
+        type:'string'
+    }, {
+        caption:'年龄',
+        type:'number'
+        }
+    ];
+    conf.rows = [['小名','男',24],['小红','女','20'],['小军','未知','33']];
+    var result = nodeExcel.execute(conf);//将所有数据写入nodeExcel中
+    res.setHeader('Access-Control-Allow-Origin', '*');//设置响应
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+    // res.setHeader('Content-Type', 'application/vnd.ms-execl');
+    res.setHeader("Content-Disposition", "attachment; filename=user.xlsx");
+
+    let data = new Buffer(result,'binary'); // 关键代码
+
+    ctx.response.body = data
 });
 
 router.get('/api/test', async (ctx, next) => {
@@ -36,7 +64,7 @@ router.get('/api/test', async (ctx, next) => {
         ctx.response.body = data
     })
 
-    // 需要处理转发接口返回的数据的逻辑
+    // 接口直接返回数据的逻辑
     const res = request({
         url: 'http://192.168.0.122:3000/api/getRegist',
         method: 'GET'
@@ -71,7 +99,7 @@ router.post('/api/getList', async (ctx, next) => {
         'Content-Type':'text/xml;charset=utf-8'
       }
     };
-    // greenFmt(ctx.request.body, '=')
+    // autoC(ctx.request.body, '=')
     // ctx.request.body.app_id = '5d42ad9eb60c4845d88c7086';
     // var options = {
     //     method: 'POST',
@@ -84,11 +112,11 @@ router.post('/api/getList', async (ctx, next) => {
         var xml2js = require('xml2js');
         var parser = new xml2js.Parser({explicitArray: false, trim: true});
         parser.parseString(data, (err, res) => {
-            greenFmt(res, '-')
+            autoC(res, '-')
             ctx.response.body = res['S:Envelope']['S:Body']['ns2:queryDepartInfoResponse']['return']
         });
     }).catch((err) => {
-        greenFmt(err, '+')
+        autoC(err, '+')
         ctx.response.body = {status: 1, msg: err}
     });
 });
@@ -98,7 +126,7 @@ router.post('/api/getEnc', (ctx, next) => {
     const data = ctx.request.body
     data.timestamp = parseInt(new Date()/1000)
 
-    greenFmt(data, '=')
+    autoC(data, '=')
 
     var datajson = JSON.stringify(data);
     var cryptkey = crypto.createHash('sha256').update(app_secret, 'utf8').digest().slice(0, 16);

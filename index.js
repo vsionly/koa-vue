@@ -19,7 +19,7 @@ app.use(static(path.resolve(__dirname, './dist')));
 
 const router = require('./server/router') // 引入router模块
 app.use(router.routes());
-autoC(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
 // 监听端口
 let port = 3000;
 app.listen(port, function(){

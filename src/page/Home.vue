@@ -1,43 +1,17 @@
 <template>
     <div class="main">
-        <header>
-            <svg t="1562669017537" class="icon-close" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1979" width="200" height="200"><path d="M940.7 840.7L602.2 502.3l319.1-319.1c25.8-25.8 25.8-64.5 0-90.2s-64.5-25.8-90.2 0L512 412.1 192.9 93c-25.8-25.8-64.5-25.8-90.2 0s-25.8 64.5 0 90.2L423.1 501 83.3 840.7c-25.8 25.8-25.8 64.5 0 90.2 12.9 12.9 25.8 19.3 45.1 19.3s32.2-6.4 45.1-19.3l340.2-340.2L856.9 931c12.9 12.9 25.8 19.3 45.1 19.3s32.2-6.4 38.7-19.3c25.7-25.8 25.7-64.5 0-90.3z" p-id="1980" fill="#ffffff"></path></svg>
-            选择院区
-        </header>
-        <content>
-            <div class="tip-txt">选择就诊院区</div>
-            <div class="list">
-                <a href="">
-                    <div>智能导诊</div>
-                    <div class="middle-txt">
-                        <p>111</p>
-                    </div>
-                    <div class="list-foot">
-                        <img src="../assets/img/position.png">
-                        <span>地址号</span>
-                    </div>
-                </a>
-            </div>
-            <a href="">
-                <div class="list">
-                    <div>智能导诊</div>
-                    <div class="middle-txt">
-                        <p>222</p>
-                    </div>
-                    <div class="list-foot">
-                        <img src="../assets/img/position.png">
-                        <span>地址号</span>
-                    </div>
-                </div>
-            </a>
-        </content>
+        <HelloWorld msg="Welcome to Your Vue.js App" @click="clickEvent"/>
+        </script>
+        <button @click="downloadExcel">下载</button>
         <v-select class="text"></v-select>
+        <iframe style="width: 0;height: 0;" name="download"></iframe> / 设置a的打开区域为ifram 内 防止部分浏览器跳转页面
     </div>
 </template>
-
 <script>
+import HelloWorld from '@/components/Hello.vue'
 export default {
     name: 'Home',
+    components: {HelloWorld},
     props: {
         msg: String
     },
@@ -52,6 +26,79 @@ export default {
         // }).catch(function (error) {
         //     console.log(error);
         // });
+
+    },
+    methods: {
+        clickEvent(){
+            console.log('事件触发')
+        },
+        downloadExcel() {
+            console.log
+            // this.axios.get('/console.log(this)api/getList', {
+            //     id: 123,
+            //     name: 'Henry',
+            //     sex: 1,
+            //     phone: 55555555
+            // }).then(function (response) {
+            //     console.log(response.data);
+            // }).catch(function (error) {
+            //     console.log(error);
+            // });
+            this.axios.get('/api/exportExcel', {
+                responseType: "blob",//指定响应类型
+                onDownloadProgress:(ProgressEvent) => {//用来计算下载量（实际项目中可以用来显示下载进度）
+                    // let total = item.fileLength;
+                    console.log(ProgressEvent);
+                    let load = ProgressEvent.loaded;
+                    console.log(load);
+                }
+            }).then(res => {
+                console.log(res, 3)
+                const blob = res.data;
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onload = (e) => {
+                    console.log('')
+                    const a = document.createElement('a');
+                    a.download = `文件.xlsx`;
+                    // 后端设置的文件名称在res.headers的 "content-disposition": "form-data; name=\"attachment\";   filename=\"20181211191944.zip\"",
+                    a.href = e.target.result;
+                    // document.body.appendChild(a);
+                    a.click();
+                    // document.body.removeChild(a);
+                };
+
+                // var a = document.createElement('a')
+                // a.download = '机构列表.xlsx'
+                // a.href = URL.createObjectURL(res.data)
+                // a.target = 'download'
+                // a.click();
+                // URL.revokeObjectURL(a.href)
+
+                // const reader = new FileReader();
+                // reader.readAsDataURL(res.blob);
+                // reader.onload = (e) => {
+                //   const a = document.createElement('a');
+                //   // a.download = `文件名称.zip`;
+                //   // 后端设置的文件名称在res.headers的 "content-disposition": "form-data; name=\"attachment\"; filename=\"20181211191944.zip\"",
+                //   a.href = e.target.result;
+                //   document.body.appendChild(a);
+                //   a.click();
+                //   document.body.removeChild(a);
+                // };
+
+                // if (res.status === 0) {
+                //     var a = document.createElement('a')
+                //     a.download = '机构列表.xlsx'
+                //     a.href = res // 绑定a标签
+                //     a.target = 'download'
+                //     a.click() // 模拟点击实现下载
+                //     setTimeout(function () { // 延时释放
+                //         URL.revokeObjectURL(res) // 用URL.revokeObjectURL()来释放这个object URL
+                //     }, 100)
+                // }
+            })
+        }
     }
 }
 </script>

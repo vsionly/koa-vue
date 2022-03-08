@@ -7,8 +7,8 @@
     "url": "git@git.zuoshouyisheng.com:liweisheng/tongmei.git"
   },
   "scripts": {
-    "start": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
+    "server": "nodemon index.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -16,12 +16,14 @@
     "color7log": "^1.6.4",
     "core-js": "^2.6.5",
     "crypto": "^1.0.1",
+    "excel-export": "^0.5.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa2": "^2.0.0-alpha.7",
     "koa2-connect-history-api-fallback": "^0.1.2",
+    "mysql": "^2.18.1",
     "request-promise": "^4.2.4",
     "urlsafe-base64": "^1.0.0",
     "vue": "^2.6.10",
