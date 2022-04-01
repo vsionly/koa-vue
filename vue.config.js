@@ -1,4 +1,20 @@
 module.exports = {
+    configureWebpack: config => {
+        config.optimization = {
+            // runtimeChunk: 'single',
+            // splitChunks: { chunks: "all" },
+            // runtimeChunk: { name: "runtime" },
+            // splitChunks: {
+            //     cacheGroups: {
+            //         vendor: {
+            //             test: /[\\/]node_modules[\\/]/,
+            //             name: 'vendors',
+            //             chunks: 'all',
+            //         },
+            //     },
+            // },
+        }
+    },
     // baseUrl  type:{string} default:'/'
     // 将部署应用程序的基本URL
     // 将部署应用程序的基本URL。
